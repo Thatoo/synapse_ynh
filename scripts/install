@@ -177,7 +177,7 @@ source $final_path/bin/activate
 test -e /etc/matrix-$app/dh.pem && mv /etc/matrix-$app/dh.pem $domain.tls.dh
 
 # Generate config and keys
-python -m synapse.app.homeserver --keys-directory /etc/matrix-$app/ --generate-config --generate-keys --server-name $domain --report-stats=no -c homeserver.yml
+python -m synapse.app.homeserver --keys-directory /etc/matrix-$app/ --generate-config --generate-keys $server_name $domain --report-stats=no -c homeserver.yml
 
 # This function was defined when we called "source $final_path/bin/activate". With this function we undo what "$final_path/bin/activate" does
 deactivate
@@ -264,6 +264,7 @@ cp ../conf/turnserver.conf "$coturn_config_path"
 ynh_replace_string __APP__ $app "$coturn_config_path"
 ynh_replace_string __TURNPWD__ $turnserver_pwd "$coturn_config_path"
 ynh_replace_string __DOMAIN__ $domain "$coturn_config_path"
+ynh_replace_string __SERVER_NAME__ $server_name "$coturn_config_path"
 ynh_replace_string __TLS_PORT__ $turnserver_tls_port "$coturn_config_path"
 ynh_replace_string __TLS_ALT_PORT__ $turnserver_alt_tls_port "$coturn_config_path"
 ynh_replace_string __CLI_PORT__ $cli_port "$coturn_config_path"
@@ -356,7 +357,7 @@ ynh_check_starting "Synapse now listening on port $synapse_tls_port" "/var/log/m
 
 message="To federate this app you need to add this line in your DNS configuration:
 
-_matrix._tcp.$domain. 3600    IN      SRV     10 0 $synapse_tls_port $domain.
+_matrix._tcp.$server_name. 3600    IN      SRV     10 0 $synapse_tls_port $domain.
 
 You also need to open the TCP port $synapse_tls_port on your ISP box if it's not automatically done.
 
