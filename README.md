@@ -39,11 +39,11 @@ If you want a web client you can also install riot with this package: https://gi
 To be accessible by the federation you need to put the following line in the dns configuration:
 
 ```
-_matrix._tcp.<yourdomain.com> <ttl> IN SRV 10 0 <port> <server.name>
+_matrix._tcp.<server_name-you-choose-at-install> <ttl> IN SRV 10 0 <port> <domain-or-subdomain-of-synapse>
 ```
 for example
 ```
-_matrix._tcp.example.com. 3600    IN      SRV     10 0 SYNAPSE_PORT example.com.
+_matrix._tcp.domain.tld. 3600    IN      SRV     10 0 8448 synapse.domain.tld.
 ```
 You need to replace SYNAPSE_PORT by the real port. This port can be obtained by the command: `yunohost app setting SYNAPSE_INSTANCE_NAME synapse_tls_port`
 
