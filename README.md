@@ -43,7 +43,7 @@ _matrix._tcp.<server_name-you-choose-at-install> <ttl> IN SRV 10 0 <port> <domai
 ```
 for example
 ```
-_matrix._tcp.domain.tld. 3600    IN      SRV     10 0 8448 synapse.domain.tld.
+_matrix._tcp.domain.tld. 3600    IN      SRV     10 0 SYNAPSE_PORT synapse.domain.tld.
 ```
 You need to replace SYNAPSE_PORT by the real port. This port can be obtained by the command: `yunohost app setting SYNAPSE_INSTANCE_NAME synapse_tls_port`
 
