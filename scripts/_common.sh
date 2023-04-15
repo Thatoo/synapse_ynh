@@ -55,6 +55,7 @@ install_sources() {
 
         pip3 install --upgrade cffi ndg-httpsclient psycopg2 lxml jinja2
         pip3 install --upgrade -r $YNH_APP_BASEDIR/conf/requirement_$(lsb_release --codename --short).txt
+        pip3 install git+https://github.com/devture/matrix-synapse-shared-secret-auth
 
         # This function was defined when we called "source $final_path/bin/activate". With this function we undo what "$final_path/bin/activate" does
         set +$u_arg;
