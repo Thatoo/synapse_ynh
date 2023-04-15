@@ -40,6 +40,7 @@ turnserver_pwd=$(ynh_app_setting_get --app=$app --key=turnserver_pwd)
 registration_shared_secret=$(ynh_app_setting_get --app=$app --key=registration_shared_secret)
 form_secret=$(ynh_app_setting_get --app=$app --key=form_secret)
 macaroon_secret_key=$(ynh_app_setting_get --app=$app --key=macaroon_secret_key)
+shared_secret_authenticator=$(ynh_app_setting_get --app=$app --key=shared_secret_authenticator)
 synapse_user_app_pwd=$(ynh_app_setting_get --app=$app --key=synapse_user_app_pwd)
 domain_whitelist_client_=$(get_domain_list)
 domain_whitelist_client=${domain_whitelist_client_%"\n"}
@@ -227,6 +228,12 @@ then
     # store in yunohost settings
     ynh_app_setting_set --app=$app --key=registration_shared_secret --value="$registration_shared_secret"
     ynh_app_setting_set --app=$app --key=form_secret --value="$form_secret"
+fi
+
+if [ -z "$registration_shared_secret" ] || [ "$form_secret" == "form_secret: " ]
+then
+shared_secret_authenticator=$(date | sha256sum | base64 | head -c 60; echo)
+ynh_app_setting_set --app=$app --key=shared_secret_authenticator --value="$shared_secret_authenticator"
 fi
 
 #=================================================
