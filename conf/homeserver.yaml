@@ -20,7 +20,14 @@ modules:
   #    do_thing: true
   #- module: my_other_super_module.SomeClass
   #  config: {}
-
+   - module: shared_secret_authenticator.SharedSecretAuthProvider
+     config:
+         shared_secret: "__SHARED_SECRET_AUTHENTICATOR__"
+         # By default, only login requests of type `com.devture.shared_secret_auth` are supported.
+         # Below, we explicitly enable support for the old `m.login.password` login type,
+         # which was used in v1 of matrix-synapse-shared-secret-auth and still widely supported by external software.
+         # If you don't need such legacy support, consider setting this to `false` or omitting it entirely.
+         m_login_password_support_enabled: false  
 
 ## Server ##
 
