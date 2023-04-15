@@ -223,11 +223,13 @@ set -u;
 registration_shared_secret=$(egrep "^registration_shared_secret:" homeserver.yml | cut -d'"' -f2)
 form_secret=$(egrep "^form_secret:" homeserver.yml | cut -d'"' -f2)
 macaroon_secret_key=$(egrep "^macaroon_secret_key:" homeserver.yml | cut -d'"' -f2)
+shared_secret_authenticator=$(date | sha256sum | base64 | head -c 60; echo)
 
 # store in yunohost settings
 ynh_app_setting_set --app=$app --key=registration_shared_secret --value="$registration_shared_secret"
 ynh_app_setting_set --app=$app --key=form_secret --value="$form_secret"
 ynh_app_setting_set --app=$app --key=macaroon_secret_key --value="$macaroon_secret_key"
+ynh_app_setting_set --app=$app --key=shared_secret_authenticator --value="$shared_secret_authenticator"
 
 #=================================================
 # SETUP SYSTEMD
