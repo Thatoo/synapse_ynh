@@ -230,9 +230,9 @@ then
     ynh_app_setting_set --app=$app --key=form_secret --value="$form_secret"
 fi
 
-if [ -z "$registration_shared_secret" ] || [ "$form_secret" == "form_secret: " ]
+if [ -z "$shared_secret_authenticator" ]
 then
-shared_secret_authenticator=$(date | sha256sum | base64 | head -c 60; echo)
+shared_secret_authenticator=$(base64 < /dev/urandom | head -c 128)
 ynh_app_setting_set --app=$app --key=shared_secret_authenticator --value="$shared_secret_authenticator"
 fi
 
